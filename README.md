@@ -8,4 +8,5 @@ Therefore,you decide whether you want to create an issue from that TODO or even 
 
 ## TODO
 - Engine for the listing
+- MVC Architecture for CLI communication
 - Application Dockertization
