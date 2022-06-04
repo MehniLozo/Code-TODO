@@ -5,3 +5,7 @@ Therefore,you decide whether you want to create an issue from that TODO or even 
 
 ## How it works
 
+
+## TODO
+- Engine for the listing
+- Application Dockertization
