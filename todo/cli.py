@@ -1,14 +1,70 @@
 
 from typing import Optional
-
+from pathlib import Path
 
 import typer
 
 
-from todo import __app_name__, __version__
-
+from todo import ERRORS, __app_name__, __version__, config, db
 
 app = typer.Typer()
+
+
+#decorator defines init() as a typer command
+@app.command()
+
+def init(
+
+    db_path: str = typer.Option(
+
+        str(db.DEFAULT_DB_FILE_PATH),
+
+        "--db-path",
+
+        "-db",
+
+        prompt="to-do database location?",
+
+    ),
+
+) -> None:
+
+    """Initialize the to-do database."""
+
+    app_init_error = config.init_app(db_path)
+
+    if app_init_error:
+
+        typer.secho(
+
+            f'Creating config file failed with "{ERRORS[app_init_error]}"',
+
+            fg=typer.colors.RED,
+
+        )
+
+        raise typer.Exit(1)
+
+    db_init_error = db.init_database(Path(db_path))
+
+    if db_init_error:
+
+        typer.secho(
+
+            f'Creating database failed with "{ERRORS[db_init_error]}"',
+
+            fg=typer.colors.RED,
+
+        )
+
+        raise typer.Exit(1)
+
+    else:
+
+        typer.secho(f"The to-do database is {db_path}", fg=typer.colors.GREEN)
+
+
+
 
 
 def _version_callback(value: bool) -> None:
